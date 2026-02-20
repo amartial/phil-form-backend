@@ -16,7 +16,7 @@ pipeline {
                 // 2. Votre Jenkins a les permissions nécessaires pour exécuter des commandes Docker.
                 sh 'docker --version'
                 sh 'pwd'
-                sh 'ls -la'
+                sh 'ls'
                 sh 'ls /home'
                 // On utilise "|| true" pour éviter que le pipeline échoue si le conteneur n'existe pas ou est déjà arrêté
                 // sh 'docker compose -f /opt/deployment/local/docker-compose.yml stop back || true'
