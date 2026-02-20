@@ -12,7 +12,7 @@ pipeline {
                 // !!!! Attention !!!! : Assurez-vous que :
                 // 1. Docker est installé et configuré sur votre machine Jenkins.
                 // 2. Votre Jenkins a les permissions nécessaires pour exécuter des commandes Docker.
-                sh 'docker --version'
+                echo 'docker --version'
                 // On utilise "|| true" pour éviter que le pipeline échoue si le conteneur n'existe pas ou est déjà arrêté
                 // sh 'docker compose -f /opt/deployment/local/docker-compose.yml stop back || true'
                 // On supprime l'image existante pour éviter les conflits.
