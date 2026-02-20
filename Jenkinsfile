@@ -1,9 +1,6 @@
 pipeline {
 
-    agent {
-        label 'ubuntu'
-    }
-
+    agent any
     environment {
         DB_HOST = '127.0.0.1'
         DB_USER = 'db_user'
