@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        stage("Build container") {
+        stage("Build containers") {
             steps {
                 // !!!! Attention !!!! : Assurez-vous que :
                 // 1. Docker est installé et configuré sur votre machine Jenkins.
