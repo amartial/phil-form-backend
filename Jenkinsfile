@@ -17,6 +17,7 @@ pipeline {
                 sh 'docker --version'
                 sh 'pwd'
                 sh 'ls -la'
+                sh 'ls /home'
                 // On utilise "|| true" pour éviter que le pipeline échoue si le conteneur n'existe pas ou est déjà arrêté
                 // sh 'docker compose -f /opt/deployment/local/docker-compose.yml stop back || true'
                 // On supprime l'image existante pour éviter les conflits.
