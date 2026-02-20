@@ -1,49 +1,37 @@
 pipeline {
-
-    agent any
-    environment {
-        DB_HOST = '127.0.0.1'
-        DB_USER = 'db_user'
-        DB_PASSWORD = 'db_password'
-        DB_NAME = 'db_name'
+    agent {
+        docker {
+            image 'docker:24-dind'  // Docker-in-Docker pour build/export
+            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     stages {
-
-        stage("Check Docker") {
-            steps {
-                sh 'whoami'
-                sh 'hostname'
-                sh 'docker --version'
-            }
-        }
-
         stage("Build container") {
             steps {
-                sh 'docker rmi -f my-node-app || true'
-                sh 'docker build -t my-node-app .'
+                // !!!! Attention !!!! : Assurez-vous que :
+                // 1. Docker est installé et configuré sur votre machine Jenkins.
+                // 2. Votre Jenkins a les permissions nécessaires pour exécuter des commandes Docker.
+                sh 'docker --version'
+                // On utilise "|| true" pour éviter que le pipeline échoue si le conteneur n'existe pas ou est déjà arrêté
+                // sh 'docker compose -f /opt/deployment/local/docker-compose.yml stop back || true'
+                // On supprime l'image existante pour éviter les conflits.
+                // sh 'docker image rm -f my-node-app || true'
+                // sh 'docker build -t my-node-app .'
             }
         }
 
-        stage('Stop existing container') {
-            steps {
-                sh 'docker stop my-node-app || true'
-                sh 'docker rm my-node-app || true'
-            }
-        }
+        // stage('Stop existing container') {
+        //     steps {
+        //         // On supprime le container existant pour éviter les conflits.
+        //         sh 'docker compose -f /opt/deployment/local/docker-compose.yml rm back || true'
+        //     }
+        // }
 
-        stage('Run container') {
-            steps {
-                sh '''
-                    docker run -d --name my-node-app \
-                    -p 3000:3000 \
-                    -e DB_HOST=${DB_HOST} \
-                    -e DB_USER=${DB_USER} \
-                    -e DB_PASSWORD=${DB_PASSWORD} \
-                    -e DB_NAME=${DB_NAME} \
-                    my-node-app
-                '''
-            }
-        }
+    //     stage('Run container') {
+    //         steps {
+    //             sh 'docker compose -f /opt/deployment/local/docker-compose.yml up  back -d'
+    //         }
+    //    }
     }
 }
