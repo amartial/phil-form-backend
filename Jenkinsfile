@@ -38,18 +38,5 @@ pipeline {
                }
             }
         }
-
-//         stage('Stop existing container') {
-//             steps {
-//                 // On supprime le container existant pour éviter les conflits.
-//                 sh 'docker compose -f /opt/deployment/local/docker-compose.yml rm back || true'
-//             }
-//         }
-//
-//         stage('Run container') {
-//             steps {
-//                 sh 'docker compose -f /opt/deployment/local/docker-compose.yml up  back -d'
-//             }
-//        }
     }
 }
