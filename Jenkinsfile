@@ -29,21 +29,22 @@ pipeline {
                         scp ./deployment.tar $SSH_SERVER:$DEPLOY_PATH/
                         ssh $SSH_SERVER "
                             cd $DEPLOY_PATH
-                            docker load -i deployment.tar
                             docker compose stop back || true
                             docker compose rm back || true
+                            docker image rm deployment || true
+                            docker load -i deployment.tar
                             docker compose up back -d
                         "
                     '''
                }
             }
         }
+    }
 
-        post {
-            always {
-                sh 'docker image rm -f deployment-front || true'
-                sh 'rm ./deployment-front.tar || true'
-            }
+    post {
+        always {
+            sh 'docker image rm -f deployment-front || true'
+            sh 'rm ./deployment-front.tar || true'
         }
     }
 }
